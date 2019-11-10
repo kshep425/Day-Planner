@@ -7,6 +7,10 @@ Plan your schedule for the day in one hour increments and store it in local stor
 
 */
 
+// interval is how many minutes it takes to get to the hour * 60 seconds
+// interval_time = (60 minutes - current min hour) * 60 * 1000
+// Example: If the current time is 5:12 pm, the minute returned is 12.  60 -12 = how many minutes are left until the top of the hour is reached.  48 min * 60 sec will return how many seconds it will take.  Then change it to milliseconds by multiplying by 1000
+
 // Declare variables
 
 let schedule = JSON.parse(localStorage.getItem("schedule"));
@@ -15,12 +19,12 @@ let current_hour = moment().hour();
 let description;
 let btn;
 let hour= "hour";
+let interval = (60 - moment().minute()) * 60 * 1000
+
 console.log(current_time.format("MMM DD YYYY hh:mm A"));
-console.log(current_hour)
+console.log(interval)
 
-
-
-// save description to schedule
+// save description to schedule and localStorage
 $(".saveBtn").click(function(){
     event.preventDefault()
     console.log("Save Button Clicked " + this.id)
@@ -59,45 +63,58 @@ $(document).ready(function (){
 
             }
     } else {
-        console.log($(".textarea"))
-        //let descriptions = $(".description")
+        // Add descriptions to daily planner
         $(".textarea").each(function() {
-            console.log(this)
             schedule_hour = $(this).attr(hour)
-            console.log(schedule_hour)
-            console.log(schedule[schedule_hour])
             $(this).val(schedule[schedule_hour])
             console.log($(this).val())
         });
-        //;
     }
 })
 
 //
 $(".description").click(function(){
     console.log("Someone changed a textarea")
-    console.log(this)
-    console.log($(this).next())
-    console.log($(this).next().text())
     $(this).next().text("Save")
     console.log($(this).next().text())
 })
 
 
+
+
 function updateDescriptionColors(){
     let timer_interval = setInterval(function(){
         console.log(moment().hour())
-        if (moment().hour() < 9) {
-            $(".description").removeClass("present")
-            $(".description").removeClass("past")
-            $(".description").addClass("future")
-        } else if (moment().hour > 17){
-            $(".description").addClass("past")
-            $(".description").removeClass("present")
-            $(".description").removeClass("future")
-        };
+        $(".description").removeClass("past");
+        $(".description").removeClass("present");
+        $(".description").removeClass("future");
 
-    }, 1000)
+        j = moment().hour();
+
+        // add past class to hours < j
+        let below;
+        for (below=9; below < j; below++){
+            id = "#description-" + below;
+            $(id).addClass("past");
+        }
+
+        // add present class to hour = j
+        id = "#description-" + j
+        $(id).addClass("present");
+        let above;
+        for(above=17; j < above; above--){
+            id = "#description-" + above;
+            $(id).addClass("future");
+        }
+
+        // clear interval when j=17.  All times are in the past until opened the next day.
+        if (j == 17){
+
+            clearInterval()
+            interval = (60 - moment().minute()) * 60 * 1000
+        }
+
+    }, interval)
 }
 
 updateDescriptionColors()
