@@ -21,6 +21,7 @@
     background: transparent;
     text-align: left;
     height: 100%;
+    border: hidden;
 }
 
 .past {
