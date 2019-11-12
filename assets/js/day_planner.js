@@ -67,7 +67,7 @@ $(document).ready(function (){
         $(".textarea").each(function() {
             schedule_hour = $(this).attr(hour)
             $(this).val(schedule[schedule_hour])
-            console.log($(this).val())
+            console.log(schedule_hour + ": " + $(this).val())
         });
     }
     updateDescriptionColors()
@@ -87,8 +87,8 @@ function timer(){
         // clear interval when j=17.  All times are in the past until opened the next day.
         if (j == 17){
             clearInterval()
-            interval = (60 - moment().minute()) * 60 * 1000
         }
+        interval = (60 - moment().minute()) * 60 * 1000
     }, interval)
 }
 
@@ -98,17 +98,21 @@ function updateDescriptionColors(){
     $(".description").removeClass("future");
 
     j = moment().hour();
+    console.log("Current moment hour is: " + j)
 
     // add past class to hours < j
+    console.log("Set everything < " + j + " to gray.")
     let below;
     for (below=9; below < j; below++){
         id = "#description-" + below;
         $(id).addClass("past");
     }
-
+    console.log("Set current hour to red.")
     // add present class to hour = j
     id = "#description-" + j
     $(id).addClass("present");
+
+    console.log("Set everything > " + j + " to green.")
     let above;
     for(above=17; j < above; above--){
         id = "#description-" + above;
