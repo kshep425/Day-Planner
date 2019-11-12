@@ -14,6 +14,7 @@ Plan your schedule for the day in one hour increments and store it in local stor
 // Declare variables
 
 let schedule = JSON.parse(localStorage.getItem("schedule"));
+let current_day = document.getElementById("currentDay");
 let current_time = moment();
 let current_hour = moment().hour();
 let description;
@@ -90,6 +91,10 @@ function timer(){
         }
         interval = (60 - moment().minute()) * 60 * 1000
     }, interval)
+
+    let display_date = setInterval(function(){
+        current_day.textContent = moment().format("dddd D/M/YYYY hh:mm:ss");
+    }, 1000)
 }
 
 function updateDescriptionColors(){
