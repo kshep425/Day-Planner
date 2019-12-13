@@ -16,8 +16,6 @@ Time that has past is displayed in gray.  The current time is displayed in red. 
 Save any changes you make on a time block by selecting the save button next to it.  This saved locally on your computer so it can still be accessed even if the page refreshes.
 
 ## Usage
-<iframe src="https://drive.google.com/file/d/1fUzGQXdAQDLlW8viNOXYWdQ8BNhlf5Wo/preview" width="640" height="480"></iframe>
-
 Open the [Day Planner](https://kshep425.github.io/Day-Planner/) and enter things to do in a time block. When you are finished click the save button next to it.  Repeat this until you have finished entering all of the time blocks.
 
 ## Credits
